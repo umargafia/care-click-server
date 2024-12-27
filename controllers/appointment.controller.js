@@ -1,0 +1,47 @@
+import asyncHandler from 'express-async-handler';
+import Appointment from '../models/appointment.model.js';
+
+export const createAppointment = asyncHandler(async (req, res) => {
+  const { doctorId, date, time, type } = req.body;
+  
+  const appointment = await Appointment.create({
+    doctor: doctorId,
+    patient: req.user._id,
+    date,
+    time,
+    type
+  });
+
+  res.status(201).json(appointment);
+});
+
+export const getDoctorAppointments = asyncHandler(async (req, res) => {
+  const appointments = await Appointment.find({ doctor: req.user._id })
+    .populate('patient', 'name email')
+    .sort({ date: 1, time: 1 });
+
+  res.json(appointments);
+});
+
+export const getPatientAppointments = asyncHandler(async (req, res) => {
+  const appointments = await Appointment.find({ patient: req.user._id })
+    .populate('doctor', 'name specialization')
+    .sort({ date: 1, time: 1 });
+
+  res.json(appointments);
+});
+
+export const updateAppointmentStatus = asyncHandler(async (req, res) => {
+  const { status } = req.body;
+  const appointment = await Appointment.findById(req.params.id);
+
+  if (!appointment) {
+    res.status(404);
+    throw new Error('Appointment not found');
+  }
+
+  appointment.status = status;
+  await appointment.save();
+
+  res.json(appointment);
+});
