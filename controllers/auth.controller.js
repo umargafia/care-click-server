@@ -41,10 +41,13 @@ export const registerUser = asyncHandler(async (req, res) => {
   });
 
   res.status(201).json({
-    _id: user._id,
+    status: 'success',
+    data: { 
+    id: user._id,
     name: user.name,
     email: user.email,
     token: generateToken(user._id)
+  }
   });
 });
 
@@ -62,6 +65,11 @@ export const registerDoctor = asyncHandler(async (req, res) => {
     throw new Error('Passwords do not match');
   }
 
+  if(password.length < 6){
+    res.status(400);
+    throw new Error('Password must be at least 6 characters');
+  }
+
   if (await Doctor.findOne({ email })) {
     res.status(400);
     throw new Error('Doctor already exists');
@@ -76,10 +84,13 @@ export const registerDoctor = asyncHandler(async (req, res) => {
   });
 
   res.status(201).json({
-    _id: doctor._id,
+    status: 'success',
+    data: { 
+    id: doctor._id,
     name: doctor.name,
     email: doctor.email,
     token: generateToken(doctor._id)
+  }
   });
 });
 
@@ -96,11 +107,13 @@ export const loginUser = asyncHandler(async (req, res) => {
   }
 
   res.json({
-    _id: user._id,
+      status: 'success',
+    data: { 
+    id: user._id,
     name: user.name,
     email: user.email,
-    role: user.role,
     token: generateToken(user._id)
+  }
   });
 });
 
@@ -115,9 +128,12 @@ export const loginDoctor = asyncHandler(async (req, res) => {
   } 
 
   res.json({
-    _id: doctor._id,
+    status: 'success',
+    data: { 
+    id: doctor._id,
     name: doctor.name,
     email: doctor.email,
     token: generateToken(doctor._id)
+  }
   });
 });
