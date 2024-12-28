@@ -25,13 +25,14 @@ export const searchDoctor = asyncHandler(async (req, res) => {
 
 export const getDoctorById = asyncHandler(async (req, res) => {
   const doctor = await Doctor.findById(req.params.id);
-  
+
   if (!doctor) {
     res.status(404).json({
       status: 'error',
       message: 'Doctor not found',
     });
   }
+  
   res.status(200).json( {
     status: 'success',
     data: doctor,

@@ -11,17 +11,8 @@ const appointmentSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  date: {
-    type: Date,
-    required: true
-  },
   time: {
-    type: String,
-    required: true
-  },
-  type: {
-    type: String,
-    enum: ['virtual', 'in-person'],
+    type: Date,
     required: true
   },
   status: {

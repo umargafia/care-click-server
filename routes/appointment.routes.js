@@ -11,9 +11,9 @@ const router = express.Router();
 
 router.use(protect);
 
-router.post('/', createAppointment);
-router.get('/doctor', restrictTo('doctor'), getDoctorAppointments);
-router.get('/patient', restrictTo('patient'), getPatientAppointments);
+router.post('/create', createAppointment);
+router.get('/doctor/:id',  getDoctorAppointments);
+router.get('/patient', getPatientAppointments);
 router.patch('/:id/status', updateAppointmentStatus);
 
 export default router;
