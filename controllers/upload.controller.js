@@ -15,7 +15,7 @@ export const uploadImage = asyncHandler(async (req, res) => {
   }
 
   const file = req.files.image;
-  
+
   // Validate file type
   const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
   if (!allowedTypes.includes(file.mimetype)) {
@@ -27,20 +27,19 @@ export const uploadImage = asyncHandler(async (req, res) => {
   const timestamp = Date.now();
   const ext = path.extname(file.name);
   const filename = `${timestamp}${ext}`;
-  
+
   const uploadPath = path.join(uploadsDir, filename);
 
   try {
     await file.mv(uploadPath);
-    
+
     // Return the URL for the uploaded file
     const fileUrl = `/uploads/${filename}`;
-    
+
     res.json({
       message: 'File uploaded successfully',
-      url: fileUrl
+      url: fileUrl,
     });
-    
   } catch (error) {
     res.status(500);
     throw new Error('Error uploading file');

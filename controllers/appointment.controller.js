@@ -3,13 +3,13 @@ import Appointment from '../models/appointment.model.js';
 import Doctor from '../models/doctor.model.js';
 export const createAppointment = asyncHandler(async (req, res) => {
   const { doctorId, date, time, type } = req.body;
-  
+
   const appointment = await Appointment.create({
     doctor: doctorId,
     patient: req.user._id,
     date,
     time,
-    type
+    type,
   });
 
   res.status(201).json(appointment);
