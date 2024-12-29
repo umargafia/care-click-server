@@ -90,12 +90,17 @@ export const updateAppointmentStatus = asyncHandler(async (req, res) => {
   const appointment = await Appointment.findById(req.params.id);
 
   if (!appointment) {
-    res.status(404);
-    throw new Error('Appointment not found');
+    return res.status(404).json({
+      status: 'error',
+      message: 'Appointment not found',
+    });
   }
 
   appointment.status = status;
   await appointment.save();
 
-  res.json(appointment);
+  res.json({
+    status: 'success',
+    data: appointment,
+  });
 });

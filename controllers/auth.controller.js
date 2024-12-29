@@ -52,7 +52,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 export const registerDoctor = asyncHandler(async (req, res) => {
   const { name, email, password, confirmPassword, specialization } = req.body;
 
-  if (!name || !email || !password || !confirmPassword) {
+  if (!name || !email || !password || !confirmPassword || !specialization) {
     res.status(400);
     throw new Error('Please fill all fields');
   }
