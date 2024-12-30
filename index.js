@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import authRoutes from './routes/auth.routes.js';
 import appointmentRoutes from './routes/appointment.routes.js';
 import doctorRoutes from './routes/doctor.routes.js';
+import userRoutes from './routes/user.routes.js';
 import errorHandler from './middleware/error.middleware.js';
 
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/appointments', appointmentRoutes);
 app.use('/api/v1/doctors', doctorRoutes);
+app.use('/api/v1/users', userRoutes);
 
 // Error Handler
 app.use(errorHandler);

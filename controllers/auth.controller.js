@@ -32,10 +32,13 @@ export const registerUser = asyncHandler(async (req, res) => {
     throw new Error('Password must be at least 6 characters');
   }
 
+  const patientId = `PAT${crypto.randomBytes(4).toString('hex').slice(0, 4)}`;
+
   const user = await User.create({
     name,
     email,
     password,
+    patientId,
   });
 
   res.status(201).json({
