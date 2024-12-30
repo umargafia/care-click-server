@@ -26,7 +26,7 @@ export const createAppointment = asyncHandler(async (req, res) => {
   });
 
   if (isDoctorAvailable) {
-   return res.status(400).json({
+    return res.status(400).json({
       status: 'error',
       message: 'Doctor is not available at this time',
     });
@@ -46,23 +46,23 @@ export const createAppointment = asyncHandler(async (req, res) => {
 
 export const getDoctorAppointments = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  
+
   // Get all appointments for the doctor from start to end of current day
   const startOfDay = new Date();
   startOfDay.setHours(0, 0, 0, 0);
-  
-  const endOfDay = new Date(); 
+
+  const endOfDay = new Date();
   endOfDay.setHours(23, 59, 59, 999);
 
-  const appointments = await Appointment.find({ 
+  const appointments = await Appointment.find({
     doctor: id,
-    time: { 
+    time: {
       $gte: startOfDay,
-      $lte: endOfDay
-    }
+      $lte: endOfDay,
+    },
   })
-  .populate('patient', 'name email')
-  .sort({ time: 1 });
+    .populate('patient', 'name email')
+    .sort({ time: 1 });
 
   res.status(200).json({
     status: 'success',
@@ -72,11 +72,12 @@ export const getDoctorAppointments = asyncHandler(async (req, res) => {
 });
 
 export const getPatientAppointments = asyncHandler(async (req, res) => {
-  console.log(req.user._id)
+  const { limit } = req.query;
   //get the appointments of the patient for the current day
-  const appointments = await Appointment.find({ patient: req.user._id, })
+  const appointments = await Appointment.find({ patient: req.user._id })
     .populate('doctor', 'name specialization')
-    .sort({ date: 1, time: 1 });
+    .sort({ date: 1, time: 1 })
+    .limit(limit);
 
   res.json({
     status: 'success',
