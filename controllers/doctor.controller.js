@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import Appointment from '../models/appointment.model.js';
 
 export const getAllDoctors = asyncHandler(async (req, res) => {
-  const doctors = await Doctor.find();
+  const doctors = await Doctor.find().sort({ createdAt: -1 });
   res.status(200).json({
     status: 'success',
     total: doctors.length,

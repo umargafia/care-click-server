@@ -62,7 +62,7 @@ export const getDoctorAppointments = asyncHandler(async (req, res) => {
     },
   })
     .populate('patient', 'name email')
-    .sort({ time: 1 });
+    .sort({ time: -1 });
 
   res.status(200).json({
     status: 'success',
